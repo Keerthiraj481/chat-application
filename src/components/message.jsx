@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { AuthContext } from "../context/authcontext";
+import { ChatContext } from "../context/chatcontext";
 
-const Message = () => {
-    return ( 
-        <div
+const Message = ({ message }) => {
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
+  return (
+    <div
       ref={ref}
       className={`message ${message.senderId === currentUser.uid && "owner"}`}
     >
@@ -22,7 +33,7 @@ const Message = () => {
         {message.img && <img src={message.img} alt="" />}
       </div>
     </div>
-     );
-}
- 
+  );
+};
+
 export default Message;
